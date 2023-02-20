@@ -1,17 +1,26 @@
 <script setup>
 import { ref } from 'vue';
 import Editor from '@guolao/vue-monaco-editor';
+//scripts
+import { reader, formatText, tokens } from '../script/lexic.js';
 
-defineProps({
-  msg: String,
-});
+//data
+const fileContent = ref();
 
-const count = ref(0);
-console.log();
+//methods
+const read = async (event) => {
+  const file = event.target.files[0]; //contenido crudo del archivo
+  fileContent.value = await reader(file);
+  console.table(formatText(fileContent.value));
+};
+const analize = () => {
+  const result = formatText(fileContent.value);
+  //console.table(result);
+  tokens();
+};
 </script>
 
 <template>
-  <h1>{{ msg }}</h1>
   <v-container>
     <v-form>
       <v-row>
@@ -30,16 +39,25 @@ console.log();
             label="Selecciona el archivo"
             accept=".txt"
             prepend-icon="mdi-file"
+            @change="read"
           />
+          <v-btn
+            variant="text"
+            color="primary"
+            append-icon="mdi-console-line"
+            @click="analize"
+          >
+            Analize
+          </v-btn>
         </v-card-text>
       </v-row>
     </v-form>
     <Editor
       height="80vh"
       theme="vs-dark"
-      defaultLanguage="javascript"
+      defaultLanguage="markdown"
       defaultValue="// some comment"
-      :value="msg"
+      v-model:value="fileContent"
     ></Editor>
   </v-container>
 </template>

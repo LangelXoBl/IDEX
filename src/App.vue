@@ -21,6 +21,7 @@ import IdeX from './components/IdeX.vue';
       <v-spacer></v-spacer>
       <v-btn
         href="http://w3.unpocodetodo.info/utiles/regex.php"
+        target="_blank"
         variant="text"
         color="primary"
         append-icon="mdi-open-in-new"
