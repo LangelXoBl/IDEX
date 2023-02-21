@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import Editor from '@guolao/vue-monaco-editor';
 //scripts
-import { reader, formatText, tokens } from '../script/lexic.js';
+import { reader, formatText, lexer } from '../script/lexic.js';
 
 //data
 const fileContent = ref();
@@ -11,12 +11,13 @@ const fileContent = ref();
 const read = async (event) => {
   const file = event.target.files[0]; //contenido crudo del archivo
   fileContent.value = await reader(file);
-  console.table(formatText(fileContent.value));
+  analize();
 };
 const analize = () => {
   const result = formatText(fileContent.value);
   //console.table(result);
-  tokens();
+  const tokens = lexer(result);
+  console.table(tokens);
 };
 </script>
 
