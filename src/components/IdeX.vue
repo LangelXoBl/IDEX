@@ -2,10 +2,11 @@
 import { ref } from 'vue';
 import Editor from '@guolao/vue-monaco-editor';
 //scripts
-import { reader, formatText, lexer } from '../script/lexic.js';
+import { reader, formatText, lexer, getErrors } from '../script/lexic.js';
 
 //data
 const fileContent = ref();
+let errors = ref();
 
 //methods
 const read = async (event) => {
@@ -15,9 +16,11 @@ const read = async (event) => {
 };
 const analize = () => {
   const result = formatText(fileContent.value);
-  //console.table(result);
+  console.table(result);
   const tokens = lexer(result);
   console.table(tokens);
+  errors.value = getErrors();
+  console.log(errors.value);
 };
 </script>
 
@@ -53,12 +56,18 @@ const analize = () => {
         </v-card-text>
       </v-row>
     </v-form>
-    <Editor
-      height="80vh"
-      theme="vs-dark"
-      defaultLanguage="markdown"
-      defaultValue="// some comment"
-      v-model:value="fileContent"
-    ></Editor>
+    <v-row>
+      <Editor
+        height="80vh"
+        width="100vh"
+        theme="vs-dark"
+        defaultLanguage="markdown"
+        defaultValue="// some comment"
+        v-model:value="fileContent"
+      ></Editor>
+      <ul>
+        <li v-for="error in errors">{{ error }}</li>
+      </ul>
+    </v-row>
   </v-container>
 </template>

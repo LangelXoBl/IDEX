@@ -3,7 +3,7 @@ import { patterns } from './lenguaje.js';
 import { format } from 'prettier';
 
 //variables globales
-const errors = [];
+let errors = [];
 
 export const reader = (file) => {
   const reader = new FileReader();
@@ -26,6 +26,7 @@ export const formatText = (text) => {
 
 export const lexer = (lines) => {
   //const lines = [{ line: 0, input: '' }];
+  errors = [];
   const tokens = [];
   let current = 0; //posicion del texto actual
   let undefined = ''; //conjunto de cadenas no reconocidas
@@ -48,6 +49,7 @@ export const lexer = (lines) => {
             );
             undefined = '';
           }
+          //revisa que no sea un espacio en blanco
           if (pattern.type != 'white Space')
             tokens.push({
               token: pattern.type,
@@ -58,18 +60,26 @@ export const lexer = (lines) => {
           break;
         }
       }
-      //en caso de que no lo reconozca
+      //en caso de que no lo reconozca va cortando characters y los guarda
       if (!match) {
         undefined += line.input.slice(current, current + 1); //va eliminando caracteres y los guarda
         current++;
       }
     }
+    //en caso de que el acabe la linea y tenga undefined, para que no pase los errores a otra linea
+    if (undefined.length > 0)
+      errors.push(
+        `${undefined} is unexpected character at position ${
+          current - undefined.length
+        } in line ${line.line}`
+      );
     //validar si tiene final de linea
     if (!regex.endLine.test(line.input))
       errors.push(`expected | in line ${line.line}`);
     current = 0;
+    undefined = '';
   });
-  console.table(errors);
+  console.log('errors', errors);
   return tokens;
 };
 
@@ -103,3 +113,7 @@ export function example(text) {
   }
   return tokens;
 }
+
+export const getErrors = () => {
+  return errors;
+};
