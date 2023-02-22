@@ -1,31 +1,24 @@
-//export default { tokens, formula, op };
-
-const tokens = {
-  whiteSpace: /\s+/, //busca espacio en blanco, puedo poner una validacion que lo ignore
-  number: /\d+/, //busca numeros
-  names: /[\w-]+/, //strings que pueden servir como nombres de variables
-  operator: /[+*-/]/, //busca operadores
-  logic: /==|>=|<=|!=/,
-  opOpen: /[(]/,
-  opClose: /[)]/,
-  blockOpen: /{/,
-  blockClose: /}/,
-  text: /'(.*?)'/, //busca lo que este entre comillas
-};
-
 //concatenar un ^ para buscar al inicio del text
 export const patterns = [
-  { type: 'white Space', pattern: /\s+/ },
-  { type: 'Asignation', pattern: /:/ },
-  { type: 'Number', pattern: /\d+/ },
-  { type: 'Variable', pattern: /[\w]+/ },
-  { type: 'Operators Aritmetic', pattern: /[+*-/]/ },
-  { type: 'Operators Logic', pattern: /(==|>=|<=|!=)/ },
-  { type: 'Operator Open', pattern: /[(]/ },
-  { type: 'Operator Close', pattern: /[)]/ },
-  { type: 'Block code Open', pattern: /{/ },
-  { type: 'Block code close', pattern: /}/ },
-  { type: 'Text', pattern: /'(.*?)'/ },
+  { type: 'white Space', pattern: /\s+/ }, ///espacio en blanco
+  { type: 'Start Program', pattern: /Prog/ },
+  { type: 'Variable Zone', pattern: /Usar/ },
+  { type: 'Start Code', pattern: /In/ },
+  { type: 'End Code', pattern: /Fin/ },
+  { type: 'End Program', pattern: /Fprog/ },
+  { type: 'Conditional', pattern: /si/ },
+  { type: 'Var int', pattern: /Num/ },
+  { type: 'Var string', pattern: /Text/ },
+  { type: 'Asignation', pattern: /:/ }, //asignar una variable x:5 o y:x+5
+  { type: 'Integer', pattern: /\d+/ }, //es un entero de 0....infinito
+  { type: 'Identifier', pattern: /[\w]+/ }, //nombres para las variables
+  { type: 'Operators Aritmetic', pattern: /[+*-/]/ }, //suma, resta, etc.
+  { type: 'Operators Logic', pattern: /(==|>=|<=|!=)/ }, //igual a, mayor que, etc.
+  { type: 'Operator Open', pattern: /[(]/ }, //abrir op o condicion
+  { type: 'Operator Close', pattern: /[)]/ }, //cerrar op o condicion
+  { type: 'Block code Open', pattern: /{/ }, //abrir bloque de codigo
+  { type: 'Block code close', pattern: /}/ }, //cerrar bloque de codigo
+  { type: 'Text', pattern: /'(.*?)'/ }, //textos entre parentesis
   { type: 'End line', pattern: /\|\s*$/ }, //busca el final de lina pero puede haber 0 o mas espacios
 ];
 //const formula = ['(', op, ')', tokens.operator];

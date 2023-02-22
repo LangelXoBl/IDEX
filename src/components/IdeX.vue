@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import Editor from '@guolao/vue-monaco-editor';
 //scripts
-import { reader, formatText, lexer, getErrors } from '../script/lexic.js';
+import { reader, formatText, lexer, getErrors } from '../script/lexer.js';
 
 //data
 const fileContent = ref();
@@ -29,14 +29,12 @@ const analize = () => {
     <v-form>
       <v-row>
         <v-card-text>
-          There are many variations of passages of Lorem Ipsum available, but
-          the majority have suffered alteration in some form, by injected
-          humour, or randomised words which don't look even slightly believable.
-          If you are going to use a passage of Lorem Ipsum, you need to be sure
-          there isn't anything embarrassing hidden in the middle of text. All
-          the Lorem Ipsum generators on the Internet tend to repeat predefined
-          chunks as necessary, making this the first true generator on the
-          Internet.
+          There are many variations of passages of Lorem Ipsum available, but the majority have
+          suffered alteration in some form, by injected humour, or randomised words which don't look
+          even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be
+          sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum
+          generators on the Internet tend to repeat predefined chunks as necessary, making this the
+          first true generator on the Internet.
           <v-file-input
             outlined
             chips
@@ -45,12 +43,7 @@ const analize = () => {
             prepend-icon="mdi-file"
             @change="read"
           />
-          <v-btn
-            variant="text"
-            color="primary"
-            append-icon="mdi-console-line"
-            @click="analize"
-          >
+          <v-btn variant="text" color="primary" append-icon="mdi-console-line" @click="analize">
             Analize
           </v-btn>
         </v-card-text>
