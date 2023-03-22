@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import Editor from '@guolao/vue-monaco-editor';
 //scripts
 import { reader, formatText, lexer, getErrors } from '../script/lexer.js';
+import parser from '../script/parser.js';
 
 //data
 const fileContent = ref();
@@ -16,11 +17,10 @@ const read = async (event) => {
 };
 const analize = () => {
   const result = formatText(fileContent.value);
-  console.table(result);
   const tokens = lexer(result);
   console.table(tokens);
+  //const code = parser(tokens);
   errors.value = getErrors();
-  console.log(errors.value);
 };
 </script>
 
