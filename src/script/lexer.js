@@ -87,25 +87,38 @@ const pushErrors = (undefined, current, line) => {
 
 //funcion para revisar la estructura del codigo
 const checkStructure = () => {
-  const expect = ['Prog', 'Usar', 'In', 'Fin', 'Fprog'];
   //revisa cuales son las variables que tiene y los quita del array
-  struct.forEach((word) => {
-    expect.splice(expect.indexOf(word.value), 1)[0]; //lo saca de expect y lo pone en user
-  });
+  const expect = filterStruc(struct);
   //los que quedan los pone como error
   expect.forEach((word) => errors.push(`${word}  is not definded`));
   checkScope(expect); // Revisar el scope de la estructura
 };
 //Revisa el scope de las palabras
 const checkScope = (donsExist) => {
-  const expect = ['Prog', 'Usar', 'In', 'Fin', 'Fprog'];
+  const expect = filterStruc(donsExist);
+  /* const expect = ['Prog', 'Usar', 'In', 'Fin', 'Fprog'];
   donsExist.forEach((word) => {
     expect.splice(expect.indexOf(word), 1); //Busca los elementos que no exiten para quitarlos y dejar el orden que espero con los elementos que si existen
-  });
+  });*/
   // Revisa que el orden que espero y el que tiene sea el miso
   const outScope = expect.filter((s, index) => s != struct[index].value);
-  console.table(outScope);
-  outScope.forEach((word) => errors.push(`${word} esta fuera del scope`));
+  if (outScope != 0)
+    outScope.forEach((word) => errors.push(`${word} esta fuera del scope, ${message[word]}`));
   //expect.expect.expect.forEach;
 };
+const filterStruc = (array) => {
+  const expect = ['Prog', 'Usar', 'In', 'Fin', 'Fprog'];
+
+  array.forEach((word) => {
+    expect.splice(expect.indexOf(word.value ?? word), 1)[0]; //lo saca de expect y lo pone en user
+  });
+  return expect;
+};
 //Se puede revisar la posicion en el array de los que tengo y los que espero, pero debo de sacarle los que no tengo
+const message = {
+  Prog: 'debe estar al inicio del programa',
+  Usar: 'debe estar despues de prog',
+  In: 'debe estar entre Usar y Fin ',
+  Fin: 'debe estar entre In y Fprog',
+  Fprog: 'debe estar al final del programa',
+};

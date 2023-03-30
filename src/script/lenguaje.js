@@ -7,8 +7,10 @@ const patterns = [
   { type: 'EndCode', pattern: /Fin/ },
   { type: 'EndProgram', pattern: /Fprog/ },
   { type: 'Conditional', pattern: /si/ },
+  { type: 'Else', pattern: /otro/ },
   { type: 'VarInt', pattern: /Num/ },
-  { type: 'VarString', pattern: /Text/ },
+  { type: 'VarString', pattern: /Text/ }, //# resercado para variables de tipo string
+  { type: 'Print', pattern: /Manda/ }, // es un print
   { type: 'Asignation', pattern: /:/ }, // asignar una variable x:5 o y:x+5
   { type: 'Integer', pattern: /\d+/ }, // es un entero de 0....infinito
   { type: 'Identifier', pattern: /[\w]+/ }, // nombres para las variables

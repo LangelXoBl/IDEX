@@ -5,6 +5,7 @@ module.exports = {
     es2021: true,
   },
   extends: ['plugin:vue/recommended', 'airbnb-base', 'prettier'],
+  parser: 'babel-eslint',
   overrides: [],
   parserOptions: {
     ecmaVersion: 'latest',

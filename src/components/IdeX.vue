@@ -19,8 +19,8 @@ const analize = () => {
   const result = formatText(fileContent.value);
   const tokens = lexer(result);
   console.table(tokens);
-  //const code = parser(tokens);
   errors.value = getErrors();
+  const validateDeclaration = parser(tokens);
 };
 </script>
 
