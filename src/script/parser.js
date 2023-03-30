@@ -1,14 +1,16 @@
-import { VarInt, Print, VarString, Input, asignation } from './structures';
+import { VarInt, Print, VarString, Input, asignation, Conditional, Mientras } from './structures';
 let errors = [];
 let intVars = [];
 let textVars = [];
 let res;
 export const parser = (tokens) => {
+  let vars = [];
   errors = [];
   intVars = [];
   textVars = [];
   //const tokens = [[{ token: 'varInt', value: 'name', line: '12' }]];
   tokens.forEach((x) => {
+    let vars = [];
     switch (x[0].token) {
       case 'VarInt':
         handleVariable(x, VarInt, intVars, 'Num');
@@ -17,7 +19,7 @@ export const parser = (tokens) => {
         handleVariable(x, VarString, textVars, 'Text');
         break;
       case 'Identifier':
-        const vars = [declarated(x[0].value, x[0].line)];
+        vars = [declarated(x[0].value, x[0].line)];
         try {
           asignation.forEach((part, index) => {
             // console.log(x[index].value);
@@ -46,6 +48,60 @@ export const parser = (tokens) => {
         //console.log(x[0].value);
         break;
       case 'Conditional':
+        // console.log('conditional', x);
+        //vars = [declarated(x[0].value, x[0].line)];
+        try {
+          Conditional.forEach((part, index) => {
+            // console.log(part, x[index].value);
+            //revisa si es un string
+            if (typeof part == 'string') {
+              if (part != x[index].token)
+                errors.push(`Invalid syntax in line ${x[index].line} for ${x[index].value}`);
+              //console.log('part: ' + part, 'toke:' + x[index].token);
+            } else {
+              if (!part.includes(x[index].token))
+                errors.push(`Invalid syntax in line ${x[index].line} for ${x[index].value}`);
+              else if (x[index].token == 'Identifier')
+                vars.push(declarated(x[index].value, x[index].line));
+              else if (x[index].token == 'Text') vars.push('string');
+              else if (x[index].token == 'Integer') vars.push('int');
+            }
+          });
+        } catch (error) {
+          console.log(error);
+          errors.push('incomplete sintax in line ' + x[0].line);
+        }
+
+        vars.every((type) => type == vars[0])
+          ? null
+          : errors.push(`Invalid type in line ${x[0].line}, for ${vars[0]}`);
+        break;
+      case 'Mientras':
+        try {
+          Mientras.forEach((part, index) => {
+            // console.log(part, x[index].value);
+            //revisa si es un string
+            if (typeof part == 'string') {
+              if (part != x[index].token)
+                errors.push(`Invalid syntax in line ${x[index].line} for ${x[index].value}`);
+              //console.log('part: ' + part, 'toke:' + x[index].token);
+            } else {
+              if (!part.includes(x[index].token))
+                errors.push(`Invalid syntax in line ${x[index].line} for ${x[index].value}`);
+              else if (x[index].token == 'Identifier')
+                vars.push(declarated(x[index].value, x[index].line));
+              else if (x[index].token == 'Text') vars.push('string');
+              else if (x[index].token == 'Integer') vars.push('int');
+            }
+          });
+        } catch (error) {
+          console.log(error);
+          errors.push('incomplete sintax in line ' + x[0].line);
+        }
+
+        vars.every((type) => type == vars[0])
+          ? null
+          : errors.push(`Invalid type in line ${x[0].line}, for ${vars[0]}`);
         break;
       case 'Print':
         res = analize(x, Print);

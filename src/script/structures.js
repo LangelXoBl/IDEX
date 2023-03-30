@@ -14,7 +14,26 @@ export const asignation = [
   variable,
   'End line',
 ];
+export const Conditional = [
+  'Conditional',
+  'OperatorOpen',
+  variable,
+  'OperatorsLogic',
+  variable,
+  'OperatorClose',
+  'BlockCodeOpen',
+];
+export const Mientras = [
+  'Mientras',
+  'OperatorOpen',
+  variable,
+  'OperatorsLogic',
+  variable,
+  'OperatorClose',
+  'BlockCodeOpen',
+];
 
+export const Else = () => ['Else', 'BlockCodeOpen'];
 const validateTypeVar = () => {};
 // const variable = ['Identifier', 'Integer', 'Text']
 

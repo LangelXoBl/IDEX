@@ -8,6 +8,7 @@ import { parser, getErrorsParser } from '../script/parser.js';
 //data
 const fileContent = ref();
 let errors = ref();
+let showErrors = ref();
 
 //methods
 const read = async (event) => {
@@ -22,6 +23,7 @@ const analize = () => {
   errors.value = getErrors();
   const validateDeclaration = parser(tokens);
   errors.value = [...getErrors(), ...getErrorsParser()];
+  showErrors.value = errors.value.join('\n');
 };
 </script>
 
@@ -58,16 +60,16 @@ const analize = () => {
         defaultLanguage="markdown"
         defaultValue="// some comment"
         v-model:value="fileContent"
+        style="margin-right: 20px"
       ></Editor>
-      <v-card class="mx-auto" max-width="300">
-        <v-list>
-          <v-list-item v-for="(error, i) in errors" :key="i">
-            <v-list-item-content>
-              <v-list-item-title v-text="error"></v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list>
-      </v-card>
+      <Editor
+        height="80vh"
+        width="60vh"
+        theme="vs-dark"
+        defaultLanguage="powershell"
+        defaultValue="> results"
+        v-model:value="showErrors"
+      ></Editor>
     </v-row>
   </v-container>
 </template>

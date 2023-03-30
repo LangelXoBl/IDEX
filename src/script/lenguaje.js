@@ -9,6 +9,7 @@ const patterns = [
   { type: 'Conditional', pattern: /si/ },
   { type: 'Else', pattern: /otro/ },
   { type: 'VarInt', pattern: /Num/ },
+  { type: 'Mientras', pattern: /Mientras/ },
   { type: 'VarString', pattern: /Text/ }, //# resercado para variables de tipo string
   { type: 'Print', pattern: /Manda/ }, // es un print
   { type: 'Input', pattern: /Recibe/ }, // es para obtener del teclado
