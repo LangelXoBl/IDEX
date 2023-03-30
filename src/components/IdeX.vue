@@ -18,7 +18,7 @@ const read = async (event) => {
 const analize = () => {
   const result = formatText(fileContent.value);
   const tokens = lexer(result);
-  console.table(tokens);
+  console.log(tokens);
   errors.value = getErrors();
   const validateDeclaration = parser(tokens);
 };

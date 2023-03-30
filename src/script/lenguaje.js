@@ -11,6 +11,7 @@ const patterns = [
   { type: 'VarInt', pattern: /Num/ },
   { type: 'VarString', pattern: /Text/ }, //# resercado para variables de tipo string
   { type: 'Print', pattern: /Manda/ }, // es un print
+  { type: 'Input', pattern: /Recibe/ }, // es para obtener del teclado
   { type: 'Asignation', pattern: /:/ }, // asignar una variable x:5 o y:x+5
   { type: 'Integer', pattern: /\d+/ }, // es un entero de 0....infinito
   { type: 'Identifier', pattern: /[\w]+/ }, // nombres para las variables
