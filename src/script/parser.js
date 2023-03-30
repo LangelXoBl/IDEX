@@ -3,7 +3,7 @@ let errors = [];
 let intVars = [];
 let textVars = [];
 let res;
-const parser = (tokens) => {
+export const parser = (tokens) => {
   errors = [];
   intVars = [];
   textVars = [];
@@ -12,61 +12,50 @@ const parser = (tokens) => {
     switch (x[0].token) {
       case 'VarInt':
         handleVariable(x, VarInt, intVars, 'Num');
-        // res = analize(x, VarInt);
-        // if (res.valid) intVars.push(res.name);
-        // else errors.push(`variable in line ${res.line} not defined correctly `);
         break;
       case 'VarString':
         handleVariable(x, VarString, textVars, 'Text');
-        //console.log(x[0].value);
         break;
       case 'Identifier':
         const vars = [declarated(x[0].value, x[0].line)];
         try {
           asignation.forEach((part, index) => {
-            console.log(x[index].value);
+            // console.log(x[index].value);
             //revisa si es un string
             if (typeof part == 'string') {
               if (part != x[index].token)
                 errors.push(`Invalid syntax in line ${x[index].line} for ${x[index].value}`);
               //console.log('part: ' + part, 'toke:' + x[index].token);
             } else {
-              console.log('multi', x[index].value);
               if (!part.includes(x[index].token))
                 errors.push(`Invalid syntax in line ${x[index].line} for ${x[index].value}`);
               else if (x[index].token == 'Identifier')
                 vars.push(declarated(x[index].value, x[index].line));
               else if (x[index].token == 'Text') vars.push('string');
               else if (x[index].token == 'Integer') vars.push('int');
-              console.log('multi', x[index].value);
-              //x[index].token == 'Text' ?  : vars.push('int');
-
-              // part.forEach((option) => console.log('part: ' + option, 'toke:' + x[index].token));
             }
           });
-          console.table(vars);
         } catch (error) {
           errors.push('incomplete sintax in line ' + x[0].line);
         }
 
         vars.every((type) => type == vars[0])
           ? null
-          : errors.push(`Invalid type in line ${x[0].line}, use ${vars[0]}`);
+          : errors.push(`Invalid type in line ${x[0].line}, for ${vars[0]}`);
 
         //console.log(x[0].value);
         break;
       case 'Conditional':
-        //console.log(x[0].value);
         break;
       case 'Print':
         res = analize(x, Print);
-        if (res.valid) console.log(`imprimir: ${res.name}`);
+        if (res.valid) null;
         else errors.push(`Incorrect sintax in line ${res.line} for Manda`);
         //console.log(x[0].value);
         break;
       case 'Input':
         res = analize(x, Input);
-        if (res.valid) console.log(`Obtener: ${res.name}`);
+        if (res.valid) null;
         else errors.push(`Incorrect sintax in line ${res.line} for Recibe`);
         //console.log(x[0].value);
         break;
@@ -75,8 +64,8 @@ const parser = (tokens) => {
     }
   });
   console.table(intVars);
-  console.table(errors);
   console.table(textVars);
+  console.table(errors);
 };
 
 const handleVariable = (tokens, expectedTokens, variablesArray, variableName) => {
@@ -95,7 +84,6 @@ const analize = (tokenLine, struct) => {
   try {
     //const tokenLine = [{ token: 'varInt', value: 'name', line: '12' }];
     struct.forEach((token, index) => {
-      // console.log(token, tokenLine[index].token);
       // va revisando la estrucura esperada con el que se recive
       if (tokenLine[index].token != token)
         errors.push(
@@ -121,7 +109,7 @@ const declarated = (variable, line) => {
   // revisa si esta declarado
   if (!isInt && !isString) {
     errors.push(`varible ${variable} in line  ${line} not defined `);
-    return null;
+    return undefined;
   }
   return isInt ? 'int' : 'string';
 };
@@ -130,4 +118,7 @@ const pushErrors = () => {
     `${undefined} is unexpected character at position ${current - undefined.length} in line ${line}`
   );
 };
-export default parser;
+
+export const getErrorsParser = () => {
+  return errors;
+};

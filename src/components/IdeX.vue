@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import Editor from '@guolao/vue-monaco-editor';
 //scripts
 import { reader, formatText, lexer, getErrors } from '../script/lexer.js';
-import parser from '../script/parser.js';
+import { parser, getErrorsParser } from '../script/parser.js';
 
 //data
 const fileContent = ref();
@@ -21,6 +21,7 @@ const analize = () => {
   console.log(tokens);
   errors.value = getErrors();
   const validateDeclaration = parser(tokens);
+  errors.value = [...getErrors(), ...getErrorsParser()];
 };
 </script>
 
@@ -58,9 +59,15 @@ const analize = () => {
         defaultValue="// some comment"
         v-model:value="fileContent"
       ></Editor>
-      <ul>
-        <li v-for="error in errors">{{ error }}</li>
-      </ul>
+      <v-card class="mx-auto" max-width="300">
+        <v-list>
+          <v-list-item v-for="(error, i) in errors" :key="i">
+            <v-list-item-content>
+              <v-list-item-title v-text="error"></v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </v-card>
     </v-row>
   </v-container>
 </template>
